@@ -16,8 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from rest_framework import routers
+from productosApp.views import ListProductos,CreateProducto,UpdateProducto,deleteProducto
+from productosApp import views
 
+router = routers.DefaultRouter()
+
+router.register('productos', views.ListProductos)
+router.register('productos/crear', views.CreateProducto)
+router.register('productos/editar/<int:pk>/', views.UpdateProducto)
+router.register('productos/eliminar/<int:pk>/', views.deleteProducto)
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/productos/',include("productosApp.urls"))
+    path('api/productos/',include("productosApp.urls")),
+    path('productos',ListProductos.as_view(),name='listarrr'),
+    path('productos/crear',CreateProducto.as_view(),name='crearrr'),
+    path('productos/editar/<int:pk>/',UpdateProducto.as_view(),name='actualizarrr'),
+    path('productos/eliminar/<int:pk>/',deleteProducto.as_view(),name='eliminarrr')
 ]
